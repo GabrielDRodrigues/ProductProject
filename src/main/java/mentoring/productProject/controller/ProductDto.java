@@ -18,8 +18,8 @@ public class ProductDto {
         this.id = product.getId();
         this.sku = product.getSku();
         this.name = product.getName();
-        this.description = product.getDescription();
-        this.price = product.getPrice();
+        this.description = product.getDescription(this.description);
+        this.price = product.getPrice(this.price);
         this.category = product.getCategory();
 
     }

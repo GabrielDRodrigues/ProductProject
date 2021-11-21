@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Product {
@@ -19,6 +21,14 @@ public class Product {
 
     public Product(Integer id, Integer sku, String name, String description, Double price, String category) {
         this.id = id;
+        this.sku = sku;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+    }
+
+    public Product(Integer sku, String name, String description, Double price, String category) {
         this.sku = sku;
         this.name = name;
         this.description = description;
@@ -53,16 +63,16 @@ public class Product {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescription(@NotEmpty @NotNull String description) {
+        return this.description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getPrice(Double price) {
+        return this.price;
     }
 
     public void setPrice(Double price) {
