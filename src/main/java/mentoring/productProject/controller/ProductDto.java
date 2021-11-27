@@ -1,14 +1,12 @@
 package mentoring.productProject.controller;
 
 import mentoring.productProject.resource.Product;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 
 public class ProductDto {
 
     private Integer id;
-    private Integer sku;
+    private String sku;
     private String name;
     private String description;
     private Double price;
@@ -24,15 +22,15 @@ public class ProductDto {
 
     }
 
-    public static List<ProductDto> converter(List<Product> products) {
-        return products.stream().map(ProductDto::new).collect(Collectors.toList());
+    public static Page<ProductDto> converter(Page<Product> products) {
+        return products.map(ProductDto::new);
     }
 
     public Integer getId() {
         return id;
     }
 
-    public Integer getSku() {
+    public String getSku() {
         return sku;
     }
 

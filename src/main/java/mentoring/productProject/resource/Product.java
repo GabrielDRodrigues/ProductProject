@@ -13,13 +13,13 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer sku;
+    private String sku;
     private String name;
     private String description;
     private Double price;
     private String category;
 
-    public Product(Integer id, Integer sku, String name, String description, Double price, String category) {
+    public Product(Integer id, String sku, String name, String description, Double price, String category) {
         this.id = id;
         this.sku = sku;
         this.name = name;
@@ -28,7 +28,7 @@ public class Product {
         this.category = category;
     }
 
-    public Product(Integer sku, String name, String description, Double price, String category) {
+    public Product(String sku, String name, String description, Double price, String category) {
         this.sku = sku;
         this.name = name;
         this.description = description;
@@ -47,11 +47,11 @@ public class Product {
         this.id = id;
     }
 
-    public Integer getSku() {
+    public String getSku() {
         return sku;
     }
 
-    public void setSku(Integer sku) {
+    public void setSku(String sku) {
         this.sku = sku;
     }
 

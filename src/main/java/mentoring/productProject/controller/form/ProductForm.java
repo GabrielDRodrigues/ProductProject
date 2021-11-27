@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 public class ProductForm {
 
 
-    private Integer sku;
+    private String sku;
     @NotEmpty @NotNull
     private String name;
     @NotEmpty @NotNull
@@ -17,11 +17,11 @@ public class ProductForm {
     @NotEmpty @NotNull
     private String category;
 
-    public Integer getSku() {
+    public String getSku() {
         return sku;
     }
 
-    public void setSku(Integer sku) {
+    public void setSku(String sku) {
         this.sku = sku;
     }
 

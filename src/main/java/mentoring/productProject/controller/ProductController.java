@@ -5,6 +5,12 @@ import mentoring.productProject.controller.form.UpdadeProductForm;
 import mentoring.productProject.repository.ProductRepository;
 import mentoring.productProject.resource.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -12,7 +18,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,15 +27,20 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
+    //Listagem de Produtos
     @ResponseBody
     @GetMapping
-    public List<ProductDto> ProductList (){
-        List<Product> products = productRepository.findAll();
+    @Cacheable(value = "productList")
+    public Page<ProductDto> ProductList (@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0, size = 10) Pageable pageable){
+
+        Page<Product> products = productRepository.findAll(pageable);
         return ProductDto.converter(products);
     }
 
+    //Cadastro
     @PostMapping
     @Transactional
+    @CacheEvict(value = "productList",allEntries = true)
     public ResponseEntity<ProductDto> registerProduct(@RequestBody @Valid ProductForm form, UriComponentsBuilder uriComponentsBuilder){
         Product product = form.converter();
         productRepository.save(product);
@@ -39,6 +49,7 @@ public class ProductController {
         return ResponseEntity.created(uri).body(new ProductDto(product));
     }
 
+    //Buscar Detalhes
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> detail (@PathVariable Integer id){
         Optional <Product> product = productRepository.findById(id);
@@ -48,17 +59,21 @@ public class ProductController {
         return ResponseEntity.notFound().build();
     }
 
+    //Atualiar
     @PutMapping("/{id}")
     @Transactional
+    @CacheEvict(value = "productList",allEntries = true)
     public ResponseEntity<ProductDto> update (@PathVariable Integer id, @RequestBody @Valid UpdadeProductForm form){
         Product product = form.update (id, productRepository);
 
         return ResponseEntity.ok(new ProductDto(product));
     }
 
+    //Deletar
     @DeleteMapping ("/{id}")
     @Transactional
-    public ResponseEntity<?> remove (@PathVariable Integer id){
+    @CacheEvict(value = "productList",allEntries = true)
+    public ResponseEntity<?> delete (@PathVariable Integer id){
         productRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }

@@ -1,9 +1,7 @@
 package mentoring.productProject.controller;
 
 import mentoring.productProject.resource.User;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 
 public class UserDto {
 
@@ -18,8 +16,8 @@ public class UserDto {
         this.email = email;
     }
 
-    public static List<UserDto> converter(List<User> users) {
-        return users.stream().map(UserDto::new).collect(Collectors.toList());
+    public static Page<UserDto> converter(Page<User> users) {
+        return users.map(UserDto::new);
     }
 
     public Integer getId() {
