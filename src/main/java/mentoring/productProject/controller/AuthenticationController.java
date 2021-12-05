@@ -4,6 +4,7 @@ package mentoring.productProject.controller;
 import mentoring.productProject.controller.TokenService;
 import mentoring.productProject.controller.form.LoginForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
